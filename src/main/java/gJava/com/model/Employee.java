@@ -1,7 +1,6 @@
-package gJava;
+package gJava.com.model;
 
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -12,6 +11,9 @@ public class Employee {
     private String lastName;
     private LocalDate created;
     private LocalDate updated;
+
+    public Employee() {
+    }
 
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
@@ -27,6 +29,11 @@ public class Employee {
         this.created = created;
         this.updated = updated;
     }
+
+
+
+
+
 
     public UUID getId() {
         return id;

@@ -1,18 +1,21 @@
-package gJava.com;
+package gJava.com.repositories.employee;
 
-import gJava.Employee;
+import gJava.com.model.Employee;
+import gJava.com.jsonConverters.EmployeeJsonConverter;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 //Nauczyc sie wrzucac na githubie
 @Repository
 
 public class EmployeeRepositoryImp implements EmployeeRepository {
     private List<Employee> employeeList = new ArrayList<>();
+    public static final String FILENAME = "Employees.json";
     //TDD- test driven development
 
 
@@ -38,7 +41,7 @@ public class EmployeeRepositoryImp implements EmployeeRepository {
                 .orElseThrow(() -> new IllegalArgumentException("Employee id cannot be find"));
 
 
-        return new Employee( savedEmployee.getId(), savedEmployee.getFirstName(), savedEmployee.getLastName(),LocalDate.now(),null);
+        return new Employee(savedEmployee.getId(), savedEmployee.getFirstName(), savedEmployee.getLastName(), LocalDate.now(), LocalDate.now());
     }
 
     @Override
@@ -50,6 +53,19 @@ public class EmployeeRepositoryImp implements EmployeeRepository {
                 .orElseThrow(() -> new IllegalArgumentException("Employee id cannot be find"));
 
         return new Employee(savedEmployee.getId(), savedEmployee.getFirstName(), savedEmployee.getLastName(), savedEmployee.getCreated(), savedEmployee.getUpdated());
+
+    }
+
+    @Override
+    public List<Employee> getAll() {
+
+        return employeeList.stream()
+                .map(employee -> new Employee(employee.getId(),
+                        employee.getFirstName(),
+                        employee.getLastName(),
+                        employee.getCreated(), employee.getUpdated()))
+                .collect(Collectors.toList());
+
 
     }
 
@@ -66,7 +82,7 @@ public class EmployeeRepositoryImp implements EmployeeRepository {
         savedEmployee.setLastName(employee.getLastName());
         savedEmployee.setUpdated(LocalDate.now());
 
-        return new Employee(savedEmployee.getId(), savedEmployee.getFirstName(), savedEmployee.getLastName(), savedEmployee.getCreated(), savedEmployee.getUpdated());
+        return new Employee(savedEmployee.getId(), savedEmployee.getFirstName(), savedEmployee.getLastName(), savedEmployee.getCreated(), LocalDate.now());
 
 
     }
@@ -87,10 +103,40 @@ public class EmployeeRepositoryImp implements EmployeeRepository {
 
     @Override
     public List<Employee> removeAll() {
-      employeeList.clear();
-        List<Employee> emptyList=employeeList;
+        employeeList.clear();
+        List<Employee> emptyList = employeeList;
 
         return emptyList;
 
     }
+
+
+    @Override
+    public void saveToJson(List<Employee> employees) {
+
+        EmployeeJsonConverter employeeJsonConverter = new EmployeeJsonConverter(FILENAME);
+
+
+        employeeJsonConverter.toJson(employees);
+    }
+
+    @Override
+    public List<Employee> readFromJson() {
+
+        EmployeeJsonConverter employeeJsonConverter = new EmployeeJsonConverter(FILENAME);
+        //TODO tego clear nie jsetem pewny ale chyba logiczne :)
+        employeeList.clear();
+        List<Employee> jsonEmployees = employeeJsonConverter.fromJson().orElseThrow(() -> new IllegalArgumentException(" Cannot parse to json "));
+
+
+        for (int i = 0; i < jsonEmployees.size(); i++) {
+
+            employeeList.add(jsonEmployees.get(i));
+        }
+
+        return employeeJsonConverter.fromJson().orElseThrow(() -> new IllegalArgumentException(" Cannot parse to json "));
+
+    }
+
+
 }

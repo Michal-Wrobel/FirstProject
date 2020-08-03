@@ -1,7 +1,7 @@
-package gJava.service;
+package gJava.com.service.employee;
 
-import gJava.Employee;
-import gJava.com.EmployeeRepository;
+import gJava.com.model.Employee;
+import gJava.com.repositories.employee.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +41,12 @@ public class EmployeeServiceImp implements EmployeeService {
     }
 
     @Override
+    public List<Employee> getAll() {
+
+        return employeeRepository.getAll();
+    }
+
+    @Override
     public Employee updateEmployee(Employee employee) {
         return this.employeeRepository.updateEmployee(employee);
 
@@ -48,12 +54,8 @@ public class EmployeeServiceImp implements EmployeeService {
 
     @Override
     public List<Employee> deleteEmployee(UUID id) {
-        return this.employeeRepository.deleteEmployee(id);    }
-
-    @Override
-    public List<Employee> removeAll() {
-
-        return this.employeeRepository.removeAll(); }
+        return this.employeeRepository.deleteEmployee(id);
+    }
 
 
 }

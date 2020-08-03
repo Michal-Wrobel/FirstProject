@@ -1,11 +1,9 @@
 package gJava.com.service;
 
-import gJava.Employee;
-import gJava.com.EmployeeRepository;
-import gJava.com.EmployeeRepositoryImp;
-import gJava.service.EmployeeService;
+import gJava.com.model.Employee;
+import gJava.com.repositories.employee.EmployeeRepository;
 
-import gJava.service.EmployeeServiceImp;
+import gJava.com.service.employee.EmployeeServiceImp;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

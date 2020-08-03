@@ -1,26 +1,35 @@
 package gJava.com.com.repositories;
 
-import gJava.Employee;
-import gJava.com.EmployeeRepository;
-import gJava.com.EmployeeRepositoryImp;
+import gJava.com.model.Employee;
+import gJava.com.repositories.employee.EmployeeRepositoryImp;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.List;
 
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
+import org.junit.jupiter.api.Assertions;
+
 //ZROB RESZTE METOD W EMPLOYEE ORAZ TESTY
 
-class EmployeeRepositoryImpTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+public class EmployeeRepositoryImpTest {
     // UMIESC REGULATORY DOSTEPU
-    private EmployeeRepository employeeRepository;
+    @Autowired
+    private EmployeeRepositoryImp employeeRepository;
     private Employee employee;
 
     @Before
-    void setUp() {
-        employeeRepository = new EmployeeRepositoryImp();
+    public void setUp() {
+
         employee = new Employee("Michal", "Michalczewki");
         //  employeeRepository.createEmployee(employee);
 
@@ -28,29 +37,33 @@ class EmployeeRepositoryImpTest {
     }
 
     @After
-    void tearDown() {
+    public void tearDown() {
         employeeRepository.removeAll();
 
     }
 
 
     @Test
-    void createEmployee() {
-
-        Employee employee= new Employee("Ala","Wasacz");
-
-        Employee expectedEmployee = employeeRepository.createEmployee(employee);
-            employee.setFirstName("Dupa");
+    public void createEmployee() {
 
 
-       Assertions.assertEquals(employee.getFirstName(), expectedEmployee.getFirstName());
-        Assertions.assertEquals(employee.getLastName(), expectedEmployee.getLastName());
+        for (int i = 0; i < 10; i++) {
+            Employee employee = new Employee("Ala", "Wasacz");
+            Employee expectedEmployee = employeeRepository.createEmployee(employee);
+        }
+
+
+        employee.setFirstName("Dupa");
+
+
+        //  Assertions.assertEquals(employee.getFirstName(), expectedEmployee.getFirstName());
+        //  Assertions.assertEquals(employee.getLastName(), expectedEmployee.getLastName());
 
 
     }
 
     @Test
-    void readEmployee() {
+    public void readEmployee() {
 
 
         var actualEmployeeId = employee.getId();
@@ -65,7 +78,7 @@ class EmployeeRepositoryImpTest {
     }
 
     @Test
-    void updateEmployee() {
+    public void updateEmployee() {
 
         Employee actualEmployee = employeeRepository.updateEmployee(employee);
         employee.setUpdated(LocalDate.of(2020, 04, 20));
@@ -78,14 +91,38 @@ class EmployeeRepositoryImpTest {
     }
 
     @Test
-    void deleteEmployee() {
+    public void deleteEmployee() {
 
 
         List<Employee> actualList = employeeRepository.deleteEmployee(employee.getId());
 
         Long listSize = actualList.stream().filter(x -> x.getId().equals(employee.getId())).count();
 
-      //  Assertions.assertEquals(listSize, 0);
+        //  Assertions.assertEquals(listSize, 0);
+
+    }
+
+
+    @Test
+    public void saveToJson() {
+
+        for (int i = 0; i < 10; i++) {
+            Employee employee = new Employee("Ala", "Wasacz");
+            Employee expectedEmployee = employeeRepository.createEmployee(employee);
+        }
+        List<Employee> employeesToFile = employeeRepository.getAll();
+        employeeRepository.saveToJson(employeesToFile);
+
+
+        List<Employee> employeesFromFile=employeeRepository.readFromJson();
+
+        Assertions.assertEquals(employeesToFile.size(), employeesFromFile.size());
+
+
+
+
+      //  Assertions.assertThat(employeesToFile.size(),equalTo( employeesFromFile.size()) )
+
 
     }
 }
