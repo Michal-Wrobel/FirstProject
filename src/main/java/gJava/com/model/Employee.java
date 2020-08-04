@@ -4,9 +4,10 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Employee {
+public class Employee implements Identifable, TimeStampEdpcd  {
 
     private UUID id;
+
     private String firstName;
     private String lastName;
     private LocalDate created;
@@ -29,10 +30,6 @@ public class Employee {
         this.created = created;
         this.updated = updated;
     }
-
-
-
-
 
 
     public UUID getId() {
@@ -63,12 +60,14 @@ public class Employee {
         this.created = created;
     }
 
-    public LocalDate getUpdated() {
-        return updated;
-    }
 
     public void setUpdated(LocalDate updated) {
         this.updated = updated;
+    }
+
+    @Override
+    public LocalDate getUpdated() {
+        return this.updated;
     }
 
     public void setId(UUID id) {

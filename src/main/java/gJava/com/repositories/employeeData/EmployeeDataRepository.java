@@ -2,21 +2,25 @@ package gJava.com.repositories.employeeData;
 
 import gJava.com.model.EmployeeData;
 
+import java.util.List;
+import java.util.UUID;
+
 public interface EmployeeDataRepository {
 
-    EmployeeData createEmployeeData(EmployeeData employeeData);
-
-//    Employee readEmployee(UUID id);
+//    EmployeeData createEmployeeData(EmployeeData employeeData);
 //
-//    List<Employee> getAll();
+//    EmployeeData readEmployeeData(UUID id);
 //
-//    Employee updateEmployee(Employee employee);
+//    List<EmployeeData> getAll();
 //
-//    List<Employee> deleteEmployee(UUID id);
+//    EmployeeData updateEmployeeData(EmployeeData employeeData);
+////
+////    List<Employee> deleteEmployee(UUID id);
+////
+////    List<Employee> removeAll();
+////
+//   void saveToJson(List<EmployeeData> employeesData);
+////
+////    List<Employee>  readFromJson();
 //
-//    List<Employee> removeAll();
-//
-//    void saveToJson(List<Employee> employees);
-//
-//    List<Employee>  readFromJson();
 }

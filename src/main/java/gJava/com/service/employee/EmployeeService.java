@@ -12,7 +12,7 @@ public interface EmployeeService {
 
     Employee readEmployee(UUID id);
 
-    List<Employee> getAll();
+  List<Employee> getAll();
 
     Employee updateEmployee(Employee employee);
 

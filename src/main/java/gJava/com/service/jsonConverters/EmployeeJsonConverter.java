@@ -1,4 +1,4 @@
-package gJava.com.jsonConverters;
+package gJava.com.service.jsonConverters;
 
 import gJava.com.model.Employee;
 

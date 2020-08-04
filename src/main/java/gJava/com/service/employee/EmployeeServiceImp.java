@@ -2,6 +2,8 @@ package gJava.com.service.employee;
 
 import gJava.com.model.Employee;
 import gJava.com.repositories.employee.EmployeeRepository;
+import gJava.com.repositories.employee.EmployeeRepositoryImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,12 +15,13 @@ import java.util.UUID;
 
 @Service
 public class EmployeeServiceImp implements EmployeeService {
-    // private final EmployeeRepository employeeRepository;
-    EmployeeRepository employeeRepository;
+   // private final EmployeeRepository employeeRepository;
+@Autowired
+   EmployeeRepositoryImp employeeRepository;
 
-    public EmployeeServiceImp(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
+//    public EmployeeServiceImp(EmployeeRepository employeeRepository) {
+//        this.employeeRepository = employeeRepository;
+//    }
 
 
     @Override
@@ -29,32 +32,32 @@ public class EmployeeServiceImp implements EmployeeService {
 
         Employee newEmployee = new Employee(firstName, lastName);
 
-        return this.employeeRepository.createEmployee(newEmployee);
+        return this.employeeRepository.createEntity(newEmployee);
 
     }
 
     @Override
     public Employee readEmployee(UUID id) {
 
-        return this.employeeRepository.readEmployee(id);
+        return this.employeeRepository.readEntity(id);
 
     }
 
     @Override
     public List<Employee> getAll() {
 
-        return employeeRepository.getAll();
+        return this.employeeRepository.getAll();
     }
 
     @Override
     public Employee updateEmployee(Employee employee) {
-        return this.employeeRepository.updateEmployee(employee);
+        return this.employeeRepository.updateEntity(employee);
 
     }
 
     @Override
     public List<Employee> deleteEmployee(UUID id) {
-        return this.employeeRepository.deleteEmployee(id);
+        return this.employeeRepository.deleteEntity(id);
     }
 
 
