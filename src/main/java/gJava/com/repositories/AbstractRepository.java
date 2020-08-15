@@ -2,6 +2,7 @@ package gJava.com.repositories;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.internal.$Gson$Types;
 import gJava.com.model.Employee;
 import gJava.com.model.Identifable;
 import gJava.com.model.TimeStampEdpcd;
@@ -16,32 +17,36 @@ import org.springframework.stereotype.Repository;
 import javax.swing.*;
 import javax.swing.text.html.parser.Entity;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 //PODSTAWOWA  teoria interfacy, Abstrakycjne klasy, dziedziczenie itp, po co sa testy, equals i hashcode ( ogolnie core java) testy integracyjne
 
 public abstract class AbstractRepository<Entity extends Identifable & TimeStampEdpcd> implements IRepository<Entity> {
-    private List<Entity> entityList = new ArrayList<>();
+    protected List<Entity> entityList = new ArrayList<>();
+
+
     @Autowired
     Gson gson;
 
     public AbstractRepository() {
+// Class c = Class.forName("gJava.com.model.Employee");
     }
 
     @Override
     public Entity createEntity(Entity entity) {
+
         if (entity == null) {
-            throw new IllegalArgumentException("Employee cannot be null");
+            throw new IllegalArgumentException("Entity cannot be null");
         }
-        if (entity.getId() != null) {
-            throw new IllegalArgumentException("Employee cannot have id");
-        }
+//        if (entity.getId() != null) {
+//            throw new IllegalArgumentException("Employee cannot have id");
+//        }
 
         UUID uuid = UUID.randomUUID();
         entity.setId(uuid);
@@ -57,8 +62,10 @@ public abstract class AbstractRepository<Entity extends Identifable & TimeStampE
 
     @Override
     public Entity readEntity(UUID id) {
+
+
         Entity entity = entityList.stream()
-                .filter(x -> x.getId().equals(id))
+                .filter(e -> id.equals(e.getId()))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("Employee id cannot be find"));
         String s = gson.toJson(entity);
@@ -115,6 +122,9 @@ public abstract class AbstractRepository<Entity extends Identifable & TimeStampE
         return emptyList;
     }
 
+
+
+
     @Override
     public void saveToJson(List<Entity> Entitys) {
 
@@ -125,16 +135,16 @@ public abstract class AbstractRepository<Entity extends Identifable & TimeStampE
         saveDatabaseToFile();
     }
 
-    @Override
-    public List<Entity> readFromJson() {
-        String FILENAME = this.getClass().getSimpleName().concat(".json");
-
-        File file = new File(FILENAME);
-
-
-        return loadDatabaseFromFile();
-
-    }
+//    @Override
+//    public List<Entity> readFromJson() {
+//        String FILENAME = this.getClass().getSimpleName().concat(".json");
+//
+//        File file = new File(FILENAME);
+//
+//
+//        return loadDatabaseFromFile();
+//
+//    }
 
 
     public void saveDatabaseToFile() {
@@ -146,22 +156,48 @@ public abstract class AbstractRepository<Entity extends Identifable & TimeStampE
 
     }
 
-    //@FIXME use generic
-    public List<Entity> loadDatabaseFromFile() {
-      //  List<Entity> entities = new ArrayList<>();
-        File file = new File(this.getClass().getSimpleName() + ".json");
-        if (file == null) {
-            throw new IllegalArgumentException();
-        }
-        try {
-            String s = FileUtils.readFileToString(file);
-            entityList = gson.fromJson(s, new TypeToken<List<Entity>>() {
-            }.getType());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    //   @FIXME use generic
+//    public List<Entity> loadDatabaseFromFile(File file) {
+//        List<Entity> entities = new ArrayList<>();
+//
+//        if (file == null) {
+//            throw new IllegalArgumentException();
+//        }
+//        try {
+//            String s = FileUtils.readFileToString(file);
+//            gson.fromJson(s, getClassName())
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return entityList;
 
-        return entityList;
+        //  }
+
+
+        //Type listType = new TypeToken<ArrayList<YourClass>>(){}.getType();
+        //List<YourClass> yourClassList = new Gson().fromJson(jsonArray, listType);
+
+//    private class MyConverter extends JsonConverter<List<Entity>> {
+//
+//        public MyConverter(String filename) {
+//            super(filename);
+//        }
+//    }
+
 
     }
-}
+
+
+//    public Optional<T> fromJson() {
+//        try (FileReader fileReader = new FileReader(filename)) {
+//
+//            return Optional.of(gson.fromJson(fileReader, type));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            System.err.println("FROM JSON - JSON FILENAME EXCEPTION");
+//        }
+//        return Optional.empty();
+//    }
+//    private final Type type = ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];

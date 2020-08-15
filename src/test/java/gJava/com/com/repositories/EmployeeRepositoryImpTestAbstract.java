@@ -3,8 +3,11 @@ package gJava.com.com.repositories;
 
 import gJava.com.model.Employee;
 import gJava.com.repositories.AbstractRepository;
+import gJava.com.repositories.IRepository;
 import gJava.com.repositories.employee.EmployeeRepository;
 import gJava.com.repositories.employee.EmployeeRepositoryImp;
+import gJava.com.repositories.employeeData.EmployeeDataRepository;
+import gJava.com.repositories.employeeData.EmployeeDataRepositoryImp;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,101 +27,23 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-public class EmployeeRepositoryImpTestAbstract {
-
+public class EmployeeRepositoryImpTestAbstract extends AbstractRepoClassTest<Employee> {
 
     @Autowired
-    private EmployeeRepositoryImp employeeRepository;
-    private Employee employee;
+    EmployeeRepositoryImp employeeRepository;
 
-    @Before
-    public void setUp() {
-        employee = new Employee("Michal", "Michalczewki");
-        this.employee = employeeRepository.createEntity(employee);
-
+    @Override
+    public Employee getEntity() {
+        return new Employee("Michal", "Kowalski");
     }
 
-    @After
-    public void tearDown() {
-        employeeRepository.removeAll();
+    @Override
+    public IRepository<Employee> getRepository() {
+        return employeeRepository;
     }
 
-    @Test
-    public void createEmployeeTest() {
-        Employee newEmployee = new Employee(employee.getFirstName(), employee.getLastName());
-        Employee createdEmployee = employeeRepository.createEntity(newEmployee);
-
-        Assertions.assertEquals(employee.getFirstName(), createdEmployee.getFirstName());
-        Assertions.assertEquals(employee.getCreated(), createdEmployee.getCreated());
-        Assertions.assertFalse(employee.getId() == createdEmployee.getId());
-
-        System.out.println();
+    @Override
+    public Employee createSecondEntity() {
+        return new Employee("Ala", "Nowak");
     }
-
-
-    @Test
-    public void readEmployeeTest() {
-        Employee savedEmployee = employeeRepository.readEntity(employee.getId());
-
-        Assertions.assertEquals(employee, savedEmployee);
-
-    }
-
-    @Test
-    public void updateEmployeeTest() {
-        Employee savedEmployee = employeeRepository.readEntity(employee.getId());
-
-        savedEmployee.setFirstName("Inne Imie");
-        employee.setUpdated(LocalDate.of(2020, 03, 05));
-        Assertions.assertTrue(employee.getId().equals(savedEmployee.getId()));
-        Assertions.assertFalse(employee.getFirstName().equals(employee.getLastName()));
-        Assertions.assertFalse(employee.getUpdated().isEqual(savedEmployee.getUpdated()));
-
-    }
-
-    @Test
-    public void deleteEmployeeTest() {
-
-        List<Employee> currentList = employeeRepository.deleteEntity(employee.getId());
-
-        int listSize = currentList.stream().filter(x -> x.equals(employee.getId())).collect(Collectors.toList()).size();
-
-        Assertions.assertEquals(0, listSize);
-
-    }
-
-
-    @Test
-    public void saveToJson() {
-        List<Employee> listToJson = employeeRepository.getAll();
-
-        employeeRepository.saveToJson(employeeRepository.getAll());
-
-        List<Employee> listFromJson = employeeRepository.readFromJson();
-
-        listToJson.sort(Comparator.comparing(Employee::getFirstName).reversed());
-        listFromJson.sort(Comparator.comparing(Employee::getFirstName).reversed());
-
-        Assertions.assertEquals(listFromJson, listToJson);
-        Assertions.assertEquals(listFromJson.size(), listFromJson.size());
-
-    }
-
-    @Test
-    public void readFromJson()
-    {
-        List<Employee> listToJson = employeeRepository.getAll();
-
-        employeeRepository.saveToJson(employeeRepository.getAll());
-
-        List<Employee> listFromJson = employeeRepository.readFromJson();
-
-        listToJson.sort(Comparator.comparing(Employee::getFirstName).reversed());
-        listFromJson.sort(Comparator.comparing(Employee::getFirstName).reversed());
-
-        Assertions.assertEquals(listFromJson, listToJson);
-        Assertions.assertEquals(listFromJson.size(), listFromJson.size());
-    }
-
-
 }

@@ -22,8 +22,11 @@ public class JsonFileSaveShutdownHook {
     private void saveDataToJson() {
         System.out.println("---PreDestroy---");
 
-        employeeRepository.saveDatabaseToFile();
-        employeeDataRepository.saveDatabaseToFile();
+        employeeRepository.saveToJson(employeeRepository.getAll());
+        employeeDataRepository.saveToJson(employeeDataRepository.getAll());
+
+      //  employeeRepository.saveDatabaseToFile();
+//        employeeDataRepository.saveDatabaseToFile();
 
 
        // employeeRepository.saveToJson(employeeRepository.getAll());

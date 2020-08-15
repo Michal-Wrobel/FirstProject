@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface EmployeeDataService {
 
-    EmployeeData createEmployeeData(BigDecimal monthSalary);
+    EmployeeData createEmployeeData(UUID employeeId,  BigDecimal monthSalary);
 
     //
     EmployeeData readEmployeeData(UUID id);
@@ -21,6 +21,8 @@ public interface EmployeeDataService {
     EmployeeData updateEmployeeData(EmployeeData employeeData);
 
     List<EmployeeData> deleteEmployeeData(UUID id);
+
+    BigDecimal calculateYearlySalary(UUID employeeId);
 
 
 }

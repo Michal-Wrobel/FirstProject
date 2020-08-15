@@ -26,9 +26,9 @@ public class EmployeeDataServiceImp implements EmployeeDataService {
     //
 //
     @Override
-    public EmployeeData createEmployeeData(BigDecimal monthSalary) {
+    public EmployeeData createEmployeeData(UUID employeeId, BigDecimal monthSalary) {
 
-        EmployeeData employeeData = new EmployeeData(monthSalary);
+        EmployeeData employeeData = new EmployeeData(employeeId, monthSalary);
 
         return this.employeeDataRepository.createEntity(employeeData);
 
@@ -58,6 +58,11 @@ public class EmployeeDataServiceImp implements EmployeeDataService {
     @Override
     public List<EmployeeData> deleteEmployeeData(UUID id) {
         return this.employeeDataRepository.deleteEntity(id);
+    }
+
+    @Override
+    public BigDecimal calculateYearlySalary(UUID employeeId) {
+        return  this.employeeDataRepository.calculateYearlySalary(employeeId);
     }
 
 

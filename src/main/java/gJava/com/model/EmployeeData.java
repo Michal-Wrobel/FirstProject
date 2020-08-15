@@ -16,12 +16,12 @@ public class EmployeeData implements Identifable, TimeStampEdpcd {
     public EmployeeData() {
     }
 
-    public EmployeeData(BigDecimal monthSalary) {
-        this.monthSalary = monthSalary;
-        this.created = LocalDate.now();
-        this.updated = LocalDate.now();
-
-    }
+//    public EmployeeData(BigDecimal monthSalary) {
+//        this.monthSalary = monthSalary;
+//        this.created = LocalDate.now();
+//        this.updated = LocalDate.now();
+//
+//    }
 
     public EmployeeData(UUID employeeID, BigDecimal monthSalary) {
         this.employeeID = employeeID;

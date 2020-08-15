@@ -19,7 +19,7 @@ public interface IRepository<Entity> {
 
     void saveToJson(List<Entity> Entitys);
 
-    List<Entity>  readFromJson();
+     List<Entity>  readFromJson();
 
 
 

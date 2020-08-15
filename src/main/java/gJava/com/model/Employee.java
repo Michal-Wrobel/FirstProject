@@ -32,10 +32,6 @@ public class Employee implements Identifable, TimeStampEdpcd  {
     }
 
 
-    public UUID getId() {
-        return id;
-    }
-
     public String getFirstName() {
         return firstName;
     }
@@ -68,6 +64,11 @@ public class Employee implements Identifable, TimeStampEdpcd  {
     @Override
     public LocalDate getUpdated() {
         return this.updated;
+    }
+
+    @Override
+    public UUID getId() {
+        return this.id;
     }
 
     public void setId(UUID id) {

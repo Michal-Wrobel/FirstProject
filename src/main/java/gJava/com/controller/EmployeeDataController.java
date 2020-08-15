@@ -20,15 +20,20 @@ public class EmployeeDataController {
 
 
     @PostMapping
-    public EmployeeData createEmployeeData( @RequestParam BigDecimal monthSalary) {
+    public EmployeeData createEmployeeData(@RequestParam UUID employeeId, @RequestParam BigDecimal monthSalary) {
 
-        EmployeeData employeeData = employeeDataService.createEmployeeData(monthSalary);
+        EmployeeData employeeData = employeeDataService.createEmployeeData(employeeId, monthSalary);
 
         return employeeData;
-
     }
-//
-//    //TODO nie mam pojecia dlaczego nie dziala
+
+    @GetMapping
+    public BigDecimal calculateYearlySalary(@RequestParam UUID employeeId) {
+
+      return employeeDataService.calculateYearlySalary(employeeId);
+    }
+
+
     @GetMapping(path = "/{id}")
     public EmployeeData getEmployeeData(@PathVariable UUID id) {
 
@@ -36,15 +41,14 @@ public class EmployeeDataController {
         return this.employeeDataService.readEmployeeData(id);
 
     }
-//
-//    @GetMapping
-//    public List<EmployeeData> getAll() {
-//
-//        return this.employeeDataService.getAll();
-//    }
+
+    @GetMapping
+    public List<EmployeeData> getAll() {
+
+        return this.employeeDataService.getAll();
+    }
 
 
-    //TODO nie mam pojecia dlaczego nie dziala
     @PutMapping()
     public EmployeeData updateEmployee(@RequestBody EmployeeData employeeData) {
         employeeDataService.updateEmployeeData(employeeData);

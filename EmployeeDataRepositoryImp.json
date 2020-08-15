@@ -1,1 +1,17 @@
-[{"id":"90d525fb-50b1-4d46-a820-85ee4981a24b","employeeID":"45c5a5a4-20ae-45c9-b6d7-fe17b56a65b8","monthSalary":6666.0,"created":{"year":2020.0,"month":8.0,"day":9.0},"updated":{"year":2020.0,"month":8.0,"day":9.0}},{"id":"2f2dca49-daaf-4ec3-b5a8-e1f8ed2225cf","employeeID":"1102c5cf-f63b-4620-a951-9d284569cd66","monthSalary":8685.0,"created":{"year":2020.0,"month":8.0,"day":9.0},"updated":{"year":2020.0,"month":8.0,"day":9.0}}]
+[
+  {
+    "id": "5bf3b4de-c930-4826-8e08-69f1352e4cab",
+    "employeeID": "7314607c-fb7c-4471-bf1c-58da5e3f4184",
+    "monthSalary": 8685,
+    "created": {
+      "year": 2020,
+      "month": 8,
+      "day": 15
+    },
+    "updated": {
+      "year": 2020,
+      "month": 8,
+      "day": 15
+    }
+  }
+]
